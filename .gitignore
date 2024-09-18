@@ -1,0 +1,38 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+
+# Build output
+dist/
+build/
+
+# Package lock
+package-lock.json
+yarn.lock
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Misc
+*.log
+*.pid
+*.gz
+*.zip
