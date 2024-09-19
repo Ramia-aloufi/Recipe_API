@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { updateUser, deleteUser, addUser, getAll } from '../controllers/user.controller';
 import { getById } from '../repositories/category.repository';
+import { isAdmin, isLoggedIn } from '../middleware/auth.middleware';
 
 export const userRouter = Router();
 
 userRouter.post('/', addUser);
-userRouter.get('/', getAll);
-userRouter.get('/:id', getById);
-userRouter.put('/:id', updateUser);
-userRouter.delete('/:id', deleteUser);
+userRouter.get('/',isLoggedIn,isAdmin, getAll);
+userRouter.get('/:id',isLoggedIn, getById);
+userRouter.put('/:id',isLoggedIn, updateUser);
+userRouter.delete('/:id',isLoggedIn,isAdmin, deleteUser);

@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { Recipe } from "../models/recipe.model";
 import { getById, updateOneById, deleteOneById, getAll } from "../repositories/category.repository";
+import { CustomRequest } from "../types/customRequest.type";
 
 // Create a new recipe
-export const createRecipe = async (req: Request, res: Response) => {
+export const createRecipe = async (req: CustomRequest, res: Response) => {
   console.log('Request body:', req.body);
   
   try {
@@ -12,7 +13,7 @@ export const createRecipe = async (req: Request, res: Response) => {
       preparationTime,
       cookingTime,
       servings,
-      chef,
+      chef = req.id,
       category,
       media, 
       ingredients, 

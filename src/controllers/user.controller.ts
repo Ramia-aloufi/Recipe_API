@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById } from "../repositories/user.repository";
+import bcrypt from "bcrypt"
 
 export const addUser = async (req: Request, res: Response) => {
   try {
-    console.log("BODY", req.body);
+    const newUser = req.body
+    const salt = await bcrypt.genSalt(10)
+    const hashedPass = await bcrypt.hash(newUser.password, salt)
     
-    const user = await createUser(req.body);
+    const user = await createUser({...newUser,password:hashedPass});
     res.status(201).json(user);
   } catch (error) {
     if (error instanceof Error) {
