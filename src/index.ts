@@ -7,7 +7,7 @@ import { userRouter } from './routes/user.routes'
 import { connectDB } from './config/db.configuration'
 import { AuthRouter } from './routes/auth.routes'
 import cookieParser from 'cookie-parser'
-import { CustomError } from './helpers/error.helper'
+import { createError, CustomError } from './helpers/error.helper'
 import { errorResponse } from './helpers/apiResponse.helper'
 
 
@@ -38,6 +38,11 @@ errorResponse(res,{message:err.message || err.messages || "internal server error
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}/`);
+})
+
+app.use(( req:Request, res:Response, next:NextFunction)=>{
+  next (errorResponse(res,{message: "route not found",statusCode:404})
+)
 })
 
 export default app
