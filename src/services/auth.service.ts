@@ -1,8 +1,20 @@
+import { createError } from "../helpers/error.helper";
+import { User } from "../models/user.model";
+import { Login } from "../types/auth.type";
 import bcrypt from "bcrypt";
 
-export const hashPassword = async (password: string) => {
-    const salt = await bcrypt.genSalt(10)
-    return bcrypt.hash(password, salt)
+export const loginUser = async (data: Login) => {
+  const { email, password } = data;
+  if (!email || !password) {
+    throw createError(400, "Email and password are required.");
   }
-  
-  export const comparePassword = async (password: string, hashedPassword: string) =>  bcrypt.compare(password, hashedPassword)
+  const isExist = await User.findOne({ email: email });
+  if (!isExist) {
+    throw createError(400, "User not found. Check the email and try again.");
+  }
+  const matchedPassword = await bcrypt.compare(password, isExist.password);
+  if (!matchedPassword) {
+    throw createError(400, "Invalid credentials");
+  }
+  return isExist;
+};

@@ -1,109 +1,102 @@
-import { Request, Response } from "express";
-import { Recipe } from "../models/recipe.model";
-import { getById, updateOneById, deleteOneById, getAll } from "../repositories/category.repository";
+import { NextFunction, Request, Response } from "express";
+import { IRecipe, Recipe } from "../models/recipe.model";
+import { getById, updateOneById, deleteOneById, getAll ,createOne} from "../services/recipe.service";
 import { CustomRequest } from "../types/customRequest.type";
+import { successResponse } from "../helpers/apiResponse.helper";
 
 // Create a new recipe
-export const createRecipe = async (req: CustomRequest, res: Response) => {
-  console.log('Request body:', req.body);
+export const createRecipe = async (req: CustomRequest, res: Response,next:NextFunction) => {
   
   try {
-    const {
-      title,
-      preparationTime,
-      cookingTime,
-      servings,
-      chef = req.id,
-      category,
-      media, 
-      ingredients, 
-      steps, 
-      comments = []
-        } = req.body;
+    // const {
+    //   title,
+    //   preparationTime,
+    //   cookingTime,
+    //   servings,
+    //   chef = req.id,
+    //   category,
+    //   media, 
+    //   ingredients, 
+    //   steps, 
+    //   comments = []
+    //     }:IRecipe = req.body;
 
-    const newRecipe = new Recipe({
-      title,
-      preparationTime,
-      cookingTime,
-      servings,
-      chef,
-      category,
-      media,
-      ingredients,
-      steps,
-      comments
-    });
-    const savedRecipe = await newRecipe.save();
-    res.status(201).json({ success: true, data: savedRecipe });
+    const newRecipe:IRecipe = req.body
+
+    // const newRecipe :IRecipe= {
+    //   title,
+    //   preparationTime,
+    //   cookingTime,
+    //   servings,
+    //   chef,
+    //   category,
+    //   media,
+    //   ingredients,
+    //   steps,
+    //   comments
+    // }
+    const savedRecipe = await createOne(newRecipe)
+    successResponse<IRecipe>(res,{
+      message:"Recipe Saved successfully.",
+      statusCode:201,
+      data:savedRecipe
+  })  
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "An unknown error occurred" });
-    }  }
+    next(error)
+   }
 }
 
-export const getRecipeById = async (req: Request, res: Response) => {
+export const getRecipeById = async (req: Request, res: Response,next:NextFunction) => {
   try {
 
     const recipe = await getById(req.params.id);
-    if (recipe) {
-      res.json(recipe);
-    } else {
-      res.status(404).json({ message: "Recipe not found" });
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "An unknown error occurred" });
-    }
-  }
-};
+      successResponse<IRecipe>(res,{
+        message:"Recipe Retrieved successfully.",
+        statusCode:200,
+        data:recipe
+    }) 
 
-export const getAllRecipes = async (req: Request, res: Response) => {
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getAllRecipes = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const recipes = await getAll();
-    res.json(recipes);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "An unknown error occurred" });
-    }
+    successResponse<IRecipe[]>(res,{
+      message:"Recipe Retrieved successfully.",
+      statusCode:200,
+      data:recipes
+  })  
+ } catch (error) {
+  next(error)
   }
-};
+}
 
-export const updateRecipe = async (req: Request, res: Response) => {
+export const updateRecipe = async (req: Request, res: Response ,next:NextFunction) => {
   try {
     const recipe = await updateOneById(req.params.id, req.body);
-    if (recipe) {
-      res.json(recipe);
-    } else {
-      res.status(404).json({ message: "Recipe not found" });
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "An unknown error occurred" });
-    }
-  }
-};
+    successResponse<IRecipe>(res,{
+      message:"Recipe Updated successfully.",
+      statusCode:200,
+      data:recipe
+  }) 
 
-export const deleteRecipe = async (req: Request, res: Response) => {
-  try {
-    const recipe = await deleteOneById(req.params.id);
-    if (recipe) {
-      res.json({ message: "Recipe deleted successfully" });
-    } else {
-      res.status(404).json({ message: "Recipe not found" });
-    }
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "An unknown error occurred" });
-    }
+    next(error)
   }
-};
+}
+
+export const deleteRecipe = async (req: Request, res: Response ,next:NextFunction) => {
+  try {
+    const recipe = await deleteOneById(req.params.id)
+    successResponse<IRecipe>(res,{
+      message:"Recipe Deleted successfully.",
+      statusCode:200,
+      data:recipe
+  }) 
+  } catch (error) {
+    next(error)
+  }
+}

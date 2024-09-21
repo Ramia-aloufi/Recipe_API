@@ -1,50 +1,55 @@
-import { Request, Response } from "express";
-import { createUser } from "../repositories/user.repository";
+import { NextFunction, Request, Response } from "express";
 import { createToken } from "../helpers/authenticateToken.helper";
 import { dev } from "../config/dev.configuration";
 import { Login } from "../types/auth.type";
-import { loginUser } from "../repositories/auth.repository";
+import { loginUser } from "../services/auth.service";
+import { errorResponse, successResponse } from "../helpers/apiResponse.helper";
 
+export const login = async (
+  req: Request,
+  res: Response,
+next:NextFunction) => {
+  try {
+    const { email, password } = req.body
 
-
-export const login = async (req:Request,res:Response) =>{
-    try{
-        const {email,password} = req.body
-
-        const user:Login = {
-            email,
-            password
-        } 
-        console.log(user);
-        
-        const newUser = await loginUser(user)
-        const payload = {
-            id:newUser.id,
-            role:newUser.role
-        }
-
-        const token = createToken(payload)
-        res.cookie(dev.AUTH_TOKEN,token)
-        res.status(201).json({})
-
-
-    }catch(error){
-        res.status(500).json({error:error})
+    const user: Login = {
+      email,
+      password,
     }
 
-
-
-
-}
-
-export const logOut = async(req:Request,res:Response)=>{
-    try{
-        res.clearCookie(dev.AUTH_TOKEN)
-        res.status(200).json({})
-
-    }catch(error){
-        res.status(400).json({})
-
+    const newUser = await loginUser(user);
+    const payload = {
+      id: newUser.id,
+      role: newUser.role,
     }
+    const token = createToken(payload)
+    res.cookie(dev.AUTH_TOKEN, token)    
+    successResponse<string>(res,{
+        message:"User login successfully.",
+        statusCode:201,
+        data:token
+    })  
+  } catch (error) {
+    console.log(error);
+    
+    next(error)
+  }
+};
 
+export const logOut = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.clearCookie(dev.AUTH_TOKEN);
+    successResponse<null>(res,{
+        message:"User logout successfully.",
+        statusCode:201,
+        data:null
+    })  
+  } catch (error) {
+    
+     next(error);
+  }
 }

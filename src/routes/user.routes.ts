@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { updateUser, deleteUser, addUser, getAll } from '../controllers/user.controller';
-import { getById } from '../repositories/category.repository';
+import { getById } from '../services/category.service';
 import { isAdmin, isLoggedIn } from '../middleware/auth.middleware';
 
 export const userRouter = Router();

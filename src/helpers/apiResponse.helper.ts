@@ -1,44 +1,41 @@
 import { Response } from "express";
 
-interface ApiResponse<T> {
-  status: string;
-  message: string;
-  data?: T;
-  errors?: any[];
-  meta?: PaginationMeta; 
+export interface ApiResponse<T> {
+  statusCode:number
+  message: string | {}
+  data?: T
+  meta?: PaginationMeta;
 }
 
 interface PaginationMeta {
   total: number;
   page: number;
   pageSize: number;
+  totalPages: number;
 }
 
 export const successResponse = <T>(
-  res: Response,
-  message: string,
-  data?: T,
-  meta?: PaginationMeta
+  res: Response, payload:ApiResponse<T>
+
 ) => {
-  return res.status(200).json({
-    status: "success",
+  var {message, data, meta, statusCode} = payload  
+   res.status(statusCode || 200).json({
+    status : true,
     message,
     data,
     meta,
-    errors: null,
-  });
-};
+  })
+}
 
-export const errorResponse = (
+export const errorResponse = <T>(
   res: Response,
-  message: string,
-  errors: any[] = [],
-  statusCode: number = 400
+  payload:ApiResponse<T>
 ) => {
-  return res.status(statusCode).json({
-    status: "error",
+  var {message, statusCode} = payload
+   res.status(statusCode || 500).json({
+    status:false,
     message,
-    data: null,
-    errors,
-  });
-};
+    data:null,
+    meta:null
+  })
+}
