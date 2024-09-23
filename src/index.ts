@@ -9,6 +9,7 @@ import { AuthRouter } from './routes/auth.routes'
 import cookieParser from 'cookie-parser'
 import { createError, CustomError } from './helpers/error.helper'
 import { errorResponse } from './helpers/apiResponse.helper'
+import cors from 'cors'
 
 
 const app = express();
@@ -17,6 +18,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors());
 
 app.use("/auth",AuthRouter)
 app.use('/users', userRouter)
