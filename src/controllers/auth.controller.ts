@@ -26,7 +26,7 @@ next:NextFunction) => {
     res.cookie(dev.AUTH_TOKEN, token,{
       maxAge: 60 * 60 * 1000, 
       httpOnly: false,
-      sameSite: 'none',
+      sameSite: 'lax',
       secure:false
     })    
     successResponse<string>(res,{
