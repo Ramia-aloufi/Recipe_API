@@ -23,7 +23,12 @@ next:NextFunction) => {
       role: newUser.role,
     }
     const token = createToken(payload)
-    res.cookie(dev.AUTH_TOKEN, token)    
+    res.cookie(dev.AUTH_TOKEN, token,{
+      maxAge: 60 * 60 * 1000, 
+      httpOnly: true,
+      sameSite: 'none',
+      secure:true
+    })    
     successResponse<string>(res,{
         message:"User login successfully.",
         statusCode:201,
