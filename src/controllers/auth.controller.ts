@@ -28,6 +28,8 @@ next:NextFunction) => {
       httpOnly: true,
       sameSite: 'none',
       secure:true,
+      domain: '.vercel.app', 
+      path: '/',
     })    
     successResponse<string>(res,{
         message:"User login successfully.",
