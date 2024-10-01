@@ -28,6 +28,8 @@ next:NextFunction) => {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: false,
       sameSite: 'strict',
+      domain:'.localhost',
+      path:'/'
     })    
     successResponse<string>(res,{
         message:"User login successfully.",
