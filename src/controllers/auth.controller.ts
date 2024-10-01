@@ -3,7 +3,7 @@ import { createToken } from "../helpers/authenticateToken.helper";
 import { dev } from "../config/dev.configuration";
 import { Login } from "../types/auth.type";
 import { loginUser } from "../services/auth.service";
-import { errorResponse, successResponse } from "../helpers/apiResponse.helper";
+import { successResponse } from "../helpers/apiResponse.helper";
 
 export const login = async (
   req: Request,
@@ -25,7 +25,7 @@ next:NextFunction) => {
     const token = createToken(payload)
     res.cookie(dev.AUTH_TOKEN, token,{
       maxAge: 60 * 60 * 1000, 
-      httpOnly: false,
+      httpOnly: true,
       sameSite: 'none',
       secure:true,
       path:'/'
