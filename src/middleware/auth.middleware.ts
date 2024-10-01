@@ -11,7 +11,6 @@ export const isAdmin = (req:CustomRequest,res:Response,next:NextFunction) => {
   const user_role= req.role
   if(user_role?.toLowerCase() != "admin"){
     throw createError(400, "Access restricted. Admins only.")
-
   }
     return next()
   
@@ -22,14 +21,11 @@ export const isLoggedIn = (req:CustomRequest,res:Response,next:NextFunction)=>{
   const token = req.cookies[dev.AUTH_TOKEN];
   if(!token){
     throw createError(400, "Access denied. Please log in.")
-
-
   }
     const verifiedToken = verifyToken(token) as JwtPayload
 
     if(!verifiedToken){
       throw createError(400, "Something went wrong. Please log in again.")
-
     }
       req.id = verifiedToken.id
       req.role = verifiedToken.role
