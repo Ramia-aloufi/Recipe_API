@@ -27,9 +27,7 @@ next:NextFunction) => {
       maxAge: 60 * 60 * 1000, 
       httpOnly: true,
       sameSite:'strict',
-      secure:true,
-      domain: '.vercel.app', 
-      path: '/',
+      secure:true
     })    
     successResponse<string>(res,{
         message:"User login successfully.",
