@@ -25,7 +25,6 @@ next:NextFunction) => {
     const token = createToken(payload)
     res.cookie(dev.AUTH_TOKEN, token,{
       maxAge: 60 * 60 * 1000, 
-      secure: process.env.NODE_ENV === 'production',
       httpOnly: false,
       sameSite: 'strict',
       domain:'.localhost',
