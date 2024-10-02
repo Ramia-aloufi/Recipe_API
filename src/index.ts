@@ -21,7 +21,8 @@ app.use(express.json());
 app.use(cors( {
   origin:['https://recipe-ui-eight.vercel.app'],
   credentials:true,
-    allowedHeaders: ['Authorization', 'Content-Type']
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    methods: 'GET,POST,PUT,DELETE',
   }
   ))
 
