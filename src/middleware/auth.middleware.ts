@@ -20,7 +20,7 @@ export const isLoggedIn = (req:CustomRequest,res:Response,next:NextFunction)=>{
   try{
   // const token = req.cookies[dev.AUTH_TOKEN];
   const token = req.headers['authorization']?.split(' ')[1];
-  console.log(token);
+  console.log("tokenBackend "+ token);
   
   if(!token){
     throw createError(400, "Access denied. Please log in.")
