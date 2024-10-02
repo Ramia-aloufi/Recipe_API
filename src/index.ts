@@ -20,7 +20,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors( {
   origin:['https://recipe-ui-eight.vercel.app'],
-  credentials:true
+  credentials:true,
+    allowedHeaders: ['Authorization']
   }
   ))
 
