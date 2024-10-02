@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById } from "../services/user.service";
+import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById, getData } from "../services/user.service";
 import bcrypt from "bcrypt"
 import { IUser } from "../models/user.model";
 import { successResponse } from "../helpers/apiResponse.helper";
+import { CustomRequest } from "../types/customRequest.type";
 
 export const addUser = async (req: Request, res: Response,next:NextFunction) => {
   try {
@@ -34,7 +35,18 @@ export const getUser = async (req: Request, res: Response,next:NextFunction) => 
 
   }
 };
-
+export const getUserData = async (req: CustomRequest, res: Response,next:NextFunction) => {
+  try {
+    const user = await getData(req.id);
+    successResponse<IUser>(res,{
+      message:"User Retrieved successfully.",
+      statusCode:200,
+      data:user
+  }) 
+  } catch (error) {
+    next(error)
+  }
+};
 export const getAll = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const users = await getAllUsers();

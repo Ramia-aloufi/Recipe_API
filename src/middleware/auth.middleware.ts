@@ -18,7 +18,8 @@ export const isAdmin = (req:CustomRequest,res:Response,next:NextFunction) => {
 
 export const isLoggedIn = (req:CustomRequest,res:Response,next:NextFunction)=>{
   try{
-  const token = req.cookies[dev.AUTH_TOKEN];
+  // const token = req.cookies[dev.AUTH_TOKEN];
+  const token = req.headers['authorization'];
   if(!token){
     throw createError(400, "Access denied. Please log in.")
   }
@@ -39,10 +40,10 @@ export const isLoggedIn = (req:CustomRequest,res:Response,next:NextFunction)=>{
 
 export const isLoggedOut = (req:Request,res:Response,next:NextFunction)=>{
   try{
-    const token = req.cookies[dev.AUTH_TOKEN];
+    const token = req.headers['authorization'];
+    // const token = req.cookies[dev.AUTH_TOKEN];
     if(token){
       throw createError(400, "You're already logged in.")
-
     }
     return next()
 }catch(error){

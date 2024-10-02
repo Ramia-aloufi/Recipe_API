@@ -23,13 +23,14 @@ next:NextFunction) => {
       role: newUser.role,
     }
     const token = createToken(payload)
-    res.cookie(dev.AUTH_TOKEN, token,{
-      maxAge: 60 * 60 * 1000, 
-      httpOnly: false,
-      sameSite:'none',
-      secure:true,
-      domain:"vercel.app"
-    })    
+
+    // res.cookie(dev.AUTH_TOKEN, token,{
+    //   maxAge: 60 * 60 * 1000, 
+    //   httpOnly: false,
+    //   sameSite:'none',
+    //   secure:true,
+    //   domain:"vercel.app"
+    // })    
     successResponse<string>(res,{
         message:"User login successfully.",
         statusCode:201,

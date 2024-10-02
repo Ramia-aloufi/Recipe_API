@@ -13,6 +13,14 @@ export const getUserById = async (id: string) => {
   return user;
 };
 
+export const getData = async (id: string | undefined) => {
+  var user = await User.findOne({ _id: id });
+  if (!user) {
+    throw createError(400, "User not found. ");
+  }
+  return user;
+};
+
 export const getUserByEmail = async (email: string) => {
   var user = await User.findOne({ email: email });
   if (!user) {

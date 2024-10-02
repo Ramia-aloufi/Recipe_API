@@ -8,5 +8,6 @@ export const userRouter = Router();
 userRouter.post('/', addUser);
 userRouter.get('/',isLoggedIn,isAdmin, getAll);
 userRouter.get('/:id',isLoggedIn, getById);
+userRouter.get('/profile',isLoggedIn, getById);
 userRouter.put('/:id',isLoggedIn, updateUser);
 userRouter.delete('/:id',isLoggedIn,isAdmin, deleteUser);
