@@ -20,7 +20,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors( {
   origin:['https://recipe-ui-eight.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Authorization,X-Requested-With,Origin, Content-Type, Accept']  }
   ))
 
@@ -34,7 +33,6 @@ connectDB()
 
 
 app.get('/', (req: Request, res: Response) => {
-  res.header("Access-Control-Allow-Origin", "*");
   res.send('Hello World!');
 })
 
