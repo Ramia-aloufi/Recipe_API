@@ -22,9 +22,7 @@ app.use(cors( {
   origin:['https://recipe-ui-eight.vercel.app'],
   credentials:true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Authorization' , 'Content-Type'],
-  exposedHeaders: ['Authorization,X-Requested-With,Origin, Content-Type, Accept'],
-  }
+  allowedHeaders: ['Authorization,X-Requested-With,Origin, Content-Type, Accept']  }
   ))
 
 app.use("/auth",AuthRouter)
@@ -33,7 +31,6 @@ app.use('/recipes', recipeRouter)
 app.use('/categories', categoryRouter)
 app.use('/comments', commentRouter)
 app.use('/favorites', favoriteRouter)
-app.options('*', cors())
 connectDB()
 
 
