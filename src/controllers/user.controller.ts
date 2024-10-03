@@ -37,12 +37,14 @@ export const getUser = async (req: Request, res: Response,next:NextFunction) => 
 };
 export const getUserData = async (req: CustomRequest, res: Response,next:NextFunction) => {
   try {
-    
+
     const user = await getUserById(req.id);
-    successResponse<IUser>(res,{
+
+
+    successResponse<{userName:string,img:string,email:string}>(res,{
       message:"User Retrieved successfully.",
       statusCode:200,
-      data:user
+      data:{userName:user.username,img:user.profileImage,email:user.email}
   }) 
   } catch (error) {
     next(error)
