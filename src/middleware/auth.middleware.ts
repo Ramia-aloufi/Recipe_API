@@ -3,6 +3,7 @@ import { JwtPayload, verifyToken } from "../helpers/authenticateToken.helper";
 import { dev } from "../config/dev.configuration";
 import { CustomRequest } from "../types/customRequest.type";
 import { createError } from "../helpers/error.helper";
+import { ObjectId } from "mongoose";
 
 
 
@@ -30,7 +31,9 @@ export const isLoggedIn = (req:CustomRequest,res:Response,next:NextFunction)=>{
     if(!verifiedToken){
       throw createError(400, "Something went wrong. Please log in again.")
     }
-      req.id = verifiedToken.id
+    console.log(verifiedToken);
+    
+      req.id = verifiedToken.id 
       req.role = verifiedToken.role
       return next()
   }catch(error){
