@@ -34,6 +34,7 @@ connectDB()
 
 
 app.get('/', (req: Request, res: Response) => {
+  res.header("Access-Control-Allow-Origin", "*");
   res.send('Hello World!');
 })
 
