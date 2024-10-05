@@ -1,4 +1,5 @@
 import { Schema, model, Document } from "mongoose";
+import { IRecipe } from "./recipe.model";
 
 export interface IUser extends Document {
   username: string;
@@ -7,6 +8,7 @@ export interface IUser extends Document {
   role: Role;
   bio: string;
   profileImage: string;
+  recipes: IRecipe["_id"][];
 }
 
 export enum Role {
@@ -54,7 +56,9 @@ const UserSchema = new Schema<IUser>({
   profileImage: {
     type: String,
     default: "dhttps://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
-  }
+  },
+  recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }]
+
 })
 
 export const User = model<IUser>("User", UserSchema);

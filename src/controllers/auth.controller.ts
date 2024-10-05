@@ -36,9 +36,7 @@ next:NextFunction) => {
         statusCode:201,
         data:token
     })  
-  } catch (error) {
-    console.log(error);
-    
+  } catch (error) {    
     next(error)
   }
 };

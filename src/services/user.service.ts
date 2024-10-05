@@ -7,7 +7,7 @@ export const createUser = async (user: IUser) => {
 };
 
 export const getUserById = async (id: string | undefined) => {
-  var user = await User.findOne({ _id: id });
+  var user = await User.findOne({ _id: id }).select("-password -role -_id -__v -email");
   if (!user) {
     throw createError(400, "User not found. ");
   }

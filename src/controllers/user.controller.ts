@@ -39,14 +39,12 @@ export const getUserData = async (req: CustomRequest, res: Response,next:NextFun
   try {
 
     const user = await getUserById(req.id);
-    const {username,profileImage , email} = user
 
-
-    successResponse<{username:string,profileImage:string,email:string}>(res,{
+    successResponse<object>(res,{
       message:"User Retrieved successfully.",
       statusCode:200,
-      data:{username:username,profileImage:profileImage,email:email}
-  }) 
+      data: user
+    }) 
   } catch (error) {
     next(error)
   }

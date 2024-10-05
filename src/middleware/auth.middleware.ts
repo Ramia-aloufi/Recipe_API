@@ -20,9 +20,7 @@ export const isAdmin = (req:CustomRequest,res:Response,next:NextFunction) => {
 export const isLoggedIn = (req:CustomRequest,res:Response,next:NextFunction)=>{
   try{
   // const token = req.cookies[dev.AUTH_TOKEN];
-  const token = req.headers['authorization']?.split(' ')[1];
-  console.log("tokenBackend "+ token);
-  
+  const token = req.headers['authorization']?.split(' ')[1];  
   if(!token){
     throw createError(400, "Access denied. Please log in.")
   }
@@ -30,9 +28,7 @@ export const isLoggedIn = (req:CustomRequest,res:Response,next:NextFunction)=>{
 
     if(!verifiedToken){
       throw createError(400, "Something went wrong. Please log in again.")
-    }
-    console.log(verifiedToken);
-    
+    }    
       req.id = verifiedToken.id 
       req.role = verifiedToken.role
       return next()
