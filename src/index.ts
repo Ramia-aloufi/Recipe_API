@@ -19,7 +19,7 @@ const port = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors( {
-  origin:['https://recipe-ui-eight.vercel.app'],
+  origin:['https://recipe-ui-eight.vercel.app','http://localhost:4200'],
   credentials:true,
   allowedHeaders: ['Authorization,X-Requested-With,Origin, Content-Type, Accept']  }
   ))
