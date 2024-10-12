@@ -1,14 +1,8 @@
 import { NextFunction,Request,Response } from "express";
 import { JwtPayload, verifyToken } from "../helpers/authenticateToken.helper";
-import { dev } from "../config/dev.configuration";
-import { CustomRequest } from "../types/customRequest.type";
 import { createError } from "../helpers/error.helper";
-import { ObjectId } from "mongoose";
 
-
-
-
-export const isAdmin = (req:CustomRequest,res:Response,next:NextFunction) => {
+export const isAdmin = (req:Request,res:Response,next:NextFunction) => {
   const user_role= req.role
   if(user_role?.toLowerCase() != "admin"){
     throw createError(400, "Access restricted. Admins only.")
@@ -17,9 +11,8 @@ export const isAdmin = (req:CustomRequest,res:Response,next:NextFunction) => {
   
 }
 
-export const isLoggedIn = (req:CustomRequest,res:Response,next:NextFunction)=>{
+export const isLoggedIn = (req:Request,res:Response,next:NextFunction)=>{
   try{
-  // const token = req.cookies[dev.AUTH_TOKEN];
   const token = req.headers['authorization']?.split(' ')[1];  
   if(!token){
     throw createError(400, "Access denied. Please log in.")

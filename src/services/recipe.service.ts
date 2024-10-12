@@ -1,7 +1,7 @@
 import { createError } from "../helpers/error.helper";
 import { IRecipe, Recipe } from "../models/recipe.model";
 
-export const createOne = async (recipe: IRecipe) => {
+export const createOne = async (recipe: Partial<IRecipe>) => {
   return await Recipe.create(recipe);
 };
 
@@ -17,6 +17,14 @@ export const getById = async (id: string) => {
     throw createError(400, " Recipe not found. ");
   }
   return recipe;
+};
+
+export const getByTitle = async (title: string) => {
+  const recipe = await Recipe.findOne({ title: title })
+  if (recipe) {
+    throw createError(400, `Recipe with ${title} Already exist`);
+  }
+  return true;
 };
 
 export const getAll = async () => {

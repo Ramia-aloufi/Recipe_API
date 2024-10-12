@@ -1,27 +1,43 @@
 import { NextFunction, Request, Response } from "express";
-import { IRecipe, Recipe } from "../models/recipe.model";
+import { IRecipe } from "../models/recipe.model";
 import { getById, updateOneById, deleteOneById, getAll ,createOne} from "../services/recipe.service";
-import { CustomRequest } from "../types/customRequest.type";
 import { successResponse } from "../helpers/apiResponse.helper";
+import { describe } from "node:test";
 
 // Create a new recipe
-export const createRecipe = async (req: CustomRequest, res: Response,next:NextFunction) => {
+export const createRecipe = async (req: Request, res: Response,next:NextFunction) => {
+  const {
+    title,
+    preparationTime,
+    cookingTime,
+    description,
+    servings,
+    chef = req.id,
+    category,
+    ingredients, 
+    steps, 
+    media,
+    comments = []
+      }:IRecipe = req.body;
   
-  try {
-    // const {
-    //   title,
-    //   preparationTime,
-    //   cookingTime,
-    //   servings,
-    //   chef = req.id,
-    //   category,
-    //   media, 
-    //   ingredients, 
-    //   steps, 
-    //   comments = []
-    //     }:IRecipe = req.body;
 
-    const newRecipe:IRecipe = req.body
+  try {
+
+
+
+
+    const recipe:Partial<IRecipe> = {
+      title,
+      description,
+      preparationTime,
+      cookingTime,
+      servings,
+      chef,
+      category,
+      ingredients, 
+      steps, 
+      comments,
+      media  }
 
     // const newRecipe :IRecipe= {
     //   title,
@@ -35,7 +51,8 @@ export const createRecipe = async (req: CustomRequest, res: Response,next:NextFu
     //   steps,
     //   comments
     // }
-    const savedRecipe = await createOne(newRecipe)
+    // res.json({newRecipe:recipe})
+    const savedRecipe = await createOne(recipe)
     successResponse<IRecipe>(res,{
       message:"Recipe Saved successfully.",
       statusCode:201,

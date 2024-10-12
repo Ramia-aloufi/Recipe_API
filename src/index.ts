@@ -7,15 +7,16 @@ import { userRouter } from './routes/user.routes'
 import { connectDB } from './config/db.configuration'
 import { AuthRouter } from './routes/auth.routes'
 import cookieParser from 'cookie-parser'
-import { createError, CustomError } from './helpers/error.helper'
+import { CustomError } from './helpers/error.helper'
 import { errorResponse } from './helpers/apiResponse.helper'
 import cors from 'cors'
+import bodyParser from 'body-parser'
 
-
-const app = express();
 
 const port = process.env.PORT || 3000;
 
+const app = express();
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors( {
@@ -31,7 +32,6 @@ app.use('/categories', categoryRouter)
 app.use('/comments', commentRouter)
 app.use('/favorites', favoriteRouter)
 connectDB()
-
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
@@ -52,4 +52,13 @@ app.use(( req:Request, res:Response, next:NextFunction)=>{
 
 export default app
 
+
+declare global {
+  namespace Express {
+    interface Request {
+      id: string,
+      role:string
+    }
+  }
+}
 

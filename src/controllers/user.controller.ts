@@ -3,7 +3,6 @@ import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById } 
 import bcrypt from "bcrypt"
 import { IUser } from "../models/user.model";
 import { successResponse } from "../helpers/apiResponse.helper";
-import { CustomRequest } from "../types/customRequest.type";
 
 export const addUser = async (req: Request, res: Response,next:NextFunction) => {
   try {
@@ -35,7 +34,7 @@ export const getUser = async (req: Request, res: Response,next:NextFunction) => 
 
   }
 };
-export const getUserData = async (req: CustomRequest, res: Response,next:NextFunction) => {
+export const getUserData = async (req: Request, res: Response,next:NextFunction) => {
   try {
 
     const user = await getUserById(req.id);
