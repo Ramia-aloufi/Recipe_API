@@ -3,8 +3,8 @@ import { IUser } from './user.model';
 import { IRecipe } from './recipe.model';
 
 export interface IFavorite extends Document {
-    user: IUser;
-    recipe: IRecipe;
+    user: IUser["_id"];
+    recipe: IRecipe["_id"];
 }
 
 const FavoriteSchema = new Schema<IFavorite>({

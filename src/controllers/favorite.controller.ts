@@ -11,7 +11,11 @@ import { successResponse } from "../helpers/apiResponse.helper";
 
 export const createFavorite = async (req: Request, res: Response,next:NextFunction) => {
   try {
-    const favorite = await createOne(req.body);
+    const data = {
+      user:req.id,
+      recipe:req.body.recipeId
+    }
+    const favorite = await createOne(data);
     successResponse<IFavorite>(res, {
       message: "Favorite Created successfully.",
       statusCode: 201,

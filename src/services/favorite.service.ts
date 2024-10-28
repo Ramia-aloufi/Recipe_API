@@ -1,7 +1,7 @@
 import { createError } from "../helpers/error.helper";
 import { IFavorite, Favorite } from "../models/favorite.model";
 
-export const createOne = async (favorite: IFavorite) => {
+export const createOne = async (favorite: Partial<IFavorite>) => {
   return await Favorite.create(favorite);
 };
 

@@ -1,5 +1,6 @@
 import { Schema, model, Document } from "mongoose";
 import { IRecipe } from "./recipe.model";
+import { IFavorite } from "./favorite.model";
 
 export interface IUser extends Document {
   username: string;
@@ -9,6 +10,8 @@ export interface IUser extends Document {
   bio: string;
   profileImage: string;
   recipes: IRecipe["_id"][];
+  favorite: IFavorite["_id"][];
+
 }
 
 export enum Role {
@@ -57,7 +60,9 @@ const UserSchema = new Schema<IUser>({
     type: String,
     default: "dhttps://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
   },
-  recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }]
+  recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
+  favorite: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }]
+
 
 })
 
