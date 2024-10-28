@@ -13,8 +13,10 @@ export const createFavorite = async (req: Request, res: Response,next:NextFuncti
   try {
     const data = {
       user:req.id,
-      recipe:req.body.recipeId
+      recipe:req.body.recipe
     }
+    console.log(data);
+    
     const favorite = await createOne(data);
     successResponse<IFavorite>(res, {
       message: "Favorite Created successfully.",
