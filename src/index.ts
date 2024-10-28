@@ -24,7 +24,11 @@ app.use(cors( {
   credentials:true,
   allowedHeaders: ['Authorization,Origin, Content-Type']  }
   ))
-
+  app.options('*', cors( {
+    origin:['https://recipe-ui-eight.vercel.app','http://localhost:4200'],
+    credentials:true,
+    allowedHeaders: ['Authorization,Origin, Content-Type']  }
+    ))
 app.use("/auth",AuthRouter)
 app.use('/users', userRouter)
 app.use('/recipes', recipeRouter)
