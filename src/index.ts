@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cors( {
   origin:['https://recipe-ui-eight.vercel.app','http://localhost:4200'],
   credentials:true,
-  allowedHeaders: ['Authorization,X-Requested-With,Origin, Content-Type, Accept']  }
+  allowedHeaders: ['Authorization,Origin, Content-Type']  }
   ))
 
 app.use("/auth",AuthRouter)
