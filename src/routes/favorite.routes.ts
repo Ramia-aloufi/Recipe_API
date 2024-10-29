@@ -5,4 +5,4 @@ import { isLoggedIn } from '../middleware/auth.middleware';
 export const favoriteRouter = Router();
 
 favoriteRouter.post('/',isLoggedIn, createFavorite);
-favoriteRouter.delete('/:id', deleteFavorite);
+favoriteRouter.delete('/:id',isLoggedIn, deleteFavorite);
