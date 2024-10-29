@@ -10,7 +10,7 @@ export const getUserById = async (id: string | undefined) => {
   var user = await User.findOne({ _id: id }).populate("recipes")
   .populate({
     path: "favorite",
-    select: "-_id -user -__v",
+    select: "-user -__v",
     populate:"recipe"
   }).select("-password -role -_id -__v -email").exec();
   if (!user) {
@@ -50,6 +50,14 @@ export const addFavorite = async (id: string, favorite:string) => {
   }
   return updatedUser;
 };
+export const removeFavorite = async (id: string, favorite:string) => {
+  var updatedUser = await User.findOneAndUpdate({ _id: id },{ $pull: { favorite: favorite } });
+  if (!updatedUser) {
+    throw createError(400, "User not found. ");
+  }
+  return updatedUser;
+};
+
 
 export const deleteUserById = async (id: string) => {
   var deletedUser = await User.findOneAndDelete({ _id: id });
