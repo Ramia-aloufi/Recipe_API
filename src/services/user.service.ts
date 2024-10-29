@@ -7,7 +7,12 @@ export const createUser = async (user: IUser) => {
 };
 
 export const getUserById = async (id: string | undefined) => {
-  var user = await User.findOne({ _id: id }).select("-password -role -_id -__v -email");
+  var user = await User.findOne({ _id: id }).populate("recipes")
+  .populate({
+    path: "favorite",
+    select: "-_id -user -__v",
+    populate:"recipe"
+  }).select("-password -role -_id -__v -email").exec();
   if (!user) {
     throw createError(400, "User not found. ");
   }
@@ -24,13 +29,22 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const getAllUsers = async () => {
-  return await User.find().exec();
+  return await User.find().populate("recipes")
+  .populate("favorite").exec();
 };
 
 export const updateUserById = async (id: string, user: Partial<IUser>) => {
   var updatedUser = await User.findOneAndUpdate({ _id: id }, user, {
     new: true,
   });
+  if (!updatedUser) {
+    throw createError(400, "User not found. ");
+  }
+  return updatedUser;
+};
+
+export const addFavorite = async (id: string, favorite:string) => {
+  var updatedUser = await User.findOneAndUpdate({ _id: id },{ $push: { favorite: favorite } });
   if (!updatedUser) {
     throw createError(400, "User not found. ");
   }

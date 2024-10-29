@@ -8,6 +8,7 @@ import {
 } from "../services/favorite.service";
 import { IFavorite } from "../models/favorite.model";
 import { successResponse } from "../helpers/apiResponse.helper";
+import { addFavorite } from "../services/user.service";
 
 export const createFavorite = async (req: Request, res: Response,next:NextFunction) => {
   try {
@@ -16,8 +17,8 @@ export const createFavorite = async (req: Request, res: Response,next:NextFuncti
       recipe:req.body.recipe
     }
     console.log(data);
-    
     const favorite = await createOne(data);
+     await addFavorite(req.id,  favorite._id as string);
     successResponse<IFavorite>(res, {
       message: "Favorite Created successfully.",
       statusCode: 201,

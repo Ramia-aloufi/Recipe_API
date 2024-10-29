@@ -14,7 +14,7 @@ export interface IRecipe extends Document {
   media: String[];
   ingredients: String[];
   steps: String[];
-  comments: IComment["_id"][];
+  comments: IComment["recipe"][];
 }
 
 const RecipeSchema = new Schema<IRecipe>({

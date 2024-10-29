@@ -9,9 +9,8 @@ export interface IUser extends Document {
   role: Role;
   bio: string;
   profileImage: string;
-  recipes: IRecipe["_id"][];
-  favorite: IFavorite["_id"][];
-
+  recipes: IRecipe["chef"][];
+  favorite:  IFavorite["user"][];
 }
 
 export enum Role {
@@ -62,8 +61,6 @@ const UserSchema = new Schema<IUser>({
   },
   recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
   favorite: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }]
-
-
 })
 
 export const User = model<IUser>("User", UserSchema);

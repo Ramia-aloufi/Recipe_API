@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById } from "../services/user.service";
+import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById, addFavorite } from "../services/user.service";
 import bcrypt from "bcrypt"
 import { IUser } from "../models/user.model";
 import { successResponse } from "../helpers/apiResponse.helper";
@@ -20,7 +20,6 @@ export const addUser = async (req: Request, res: Response,next:NextFunction) => 
     next(error)
   }
 };
-
 export const getUser = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const user = await getUserById(req.params.id);
@@ -60,7 +59,6 @@ export const getAll = async (req: Request, res: Response,next:NextFunction) => {
     next(error)
   }
 };
-
 export const updateUser = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const user = await updateUserById(req.params.id, req.body);
@@ -74,7 +72,22 @@ export const updateUser = async (req: Request, res: Response,next:NextFunction) 
 
   }
 };
-
+export const addUserFavorite = async (req: Request, res: Response,next:NextFunction) => {
+  try {
+    const data = {
+      user:req.id,
+      recipe:req.body.recipe
+    }
+     await addFavorite(data.user,  data.recipe);
+    successResponse<null>(res, {
+      message: "Favorite Created successfully.",
+      statusCode: 201,
+      data: null,
+  })
+  } catch (error) {
+    next(error)
+  }
+};
 export const deleteUser = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const user = await deleteUserById(req.params.id);
