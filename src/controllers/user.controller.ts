@@ -33,6 +33,14 @@ export const getUser = async (req: Request, res: Response,next:NextFunction) => 
 
   }
 };
+export const adminOnly = async (req: Request, res: Response,next:NextFunction) => {
+    successResponse<boolean>(res,{
+      message:"User Retrieved successfully.",
+      statusCode:200,
+      data:true
+  }) 
+
+};
 export const getUserData = async (req: Request, res: Response,next:NextFunction) => {
   try {
 
