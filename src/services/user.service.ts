@@ -28,14 +28,14 @@ export const getUserByEmail = async (email: string) => {
   return user;
 };
 
-export const getOneByName = async (username: string) => {
-  var user = await User.findOne({ username: username }).populate({
-    path: "favorite",
-    select: "-user -__v",
-    populate:"recipe"
-  }).select("-password -role -_id -__v -email").exec();;
+export const getOneByName = async (username: string) => {  
+  var user = await User.findOne({ username: username }).populate("recipes")
+  .populate("favorite").select("-password -role -_id -__v -email").exec();
+  
+  console.log(user);
+  
   if (!user) {
-    throw createError(400, "User not found. ");
+    throw createError(400, "User");
   }
   return user;
 };

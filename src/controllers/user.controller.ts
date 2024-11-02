@@ -34,13 +34,16 @@ export const getUser = async (req: Request, res: Response,next:NextFunction) => 
   }
 };
 export const getUserByName = async (req: Request, res: Response,next:NextFunction) => {
-  try {
+  try {    
+    console.log(req.params.name);
+    
     const user = await getOneByName (req.params.name);
     successResponse<IUser>(res,{
       message:"User Retrieved successfully.",
       statusCode:200,
       data:user
   }) 
+  
   } catch (error) {
     next(error)
 

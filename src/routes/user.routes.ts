@@ -10,6 +10,6 @@ userRouter.get('/one/:id',isLoggedIn, getUser);
 userRouter.get('/profile',isLoggedIn, getUserData);
 userRouter.put('/one/:id',isLoggedIn, updateUser);
 userRouter.delete('/one/:id',isLoggedIn,isAdmin, deleteUser);
-userRouter.get('/one/:name', getUserByName);
+userRouter.get('/view/:name', getUserByName);
 userRouter.get('/admin-only',isLoggedIn,isAdmin,adminOnly);
 
