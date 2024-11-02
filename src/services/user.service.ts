@@ -28,6 +28,18 @@ export const getUserByEmail = async (email: string) => {
   return user;
 };
 
+export const getOneByName = async (username: string) => {
+  var user = await User.findOne({ username: username }).populate({
+    path: "favorite",
+    select: "-user -__v",
+    populate:"recipe"
+  }).select("-password -role -_id -__v -email").exec();;
+  if (!user) {
+    throw createError(400, "User not found. ");
+  }
+  return user;
+};
+
 export const getAllUsers = async () => {
   return await User.find().populate("recipes")
   .populate("favorite").exec();
@@ -57,7 +69,6 @@ export const removeFavorite = async (id: string, favorite:string) => {
   }
   return updatedUser;
 };
-
 
 export const deleteUserById = async (id: string) => {
   var deletedUser = await User.findOneAndDelete({ _id: id });

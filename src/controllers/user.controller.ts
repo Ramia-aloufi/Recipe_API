@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById, addFavorite } from "../services/user.service";
+import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById, addFavorite, getOneByName } from "../services/user.service";
 import bcrypt from "bcrypt"
 import { IUser } from "../models/user.model";
 import { successResponse } from "../helpers/apiResponse.helper";
@@ -33,13 +33,25 @@ export const getUser = async (req: Request, res: Response,next:NextFunction) => 
 
   }
 };
+export const getUserByName = async (req: Request, res: Response,next:NextFunction) => {
+  try {
+    const user = await getOneByName (req.params.name);
+    successResponse<IUser>(res,{
+      message:"User Retrieved successfully.",
+      statusCode:200,
+      data:user
+  }) 
+  } catch (error) {
+    next(error)
+
+  }
+};
 export const adminOnly = async (req: Request, res: Response,next:NextFunction) => {
     successResponse<boolean>(res,{
       message:"User Retrieved successfully.",
       statusCode:200,
       data:true
   }) 
-
 };
 export const getUserData = async (req: Request, res: Response,next:NextFunction) => {
   try {
