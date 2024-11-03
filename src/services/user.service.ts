@@ -30,7 +30,8 @@ export const getUserByEmail = async (email: string) => {
 
 export const getOneByName = async (username: string) => {  
   var user = await User.findOne({ username: username }).populate("recipes")
-  .populate("favorite").select("-password -role -_id -__v -email").exec();
+  .populate("favorite").populate("following")
+  .select("-password -role -_id -__v -email").exec();
   
   console.log(user);
   
@@ -82,7 +83,9 @@ export const followUser = async(name:string,id:string,)=>{
   console.log('name:'+name);
 
   
-  var user = await User.findOneAndUpdate({ username: name },{ $addToSet: { following: id } },{new:true})
+  var user = await User.findOneAndUpdate({ username: name },{ $addToSet: { following: id } },{new:true}).populate("recipes")
+  .populate("favorite").populate("following")
+  .select("-password -role -_id -__v -email").exec();
   console.log(user);
   
   if (!user) {
@@ -93,7 +96,9 @@ export const followUser = async(name:string,id:string,)=>{
 export const unFollowUser = async(name:string,id:string,)=>{
   console.log('id:'+id);
   console.log('name:'+name);
-  var user = await User.findOneAndUpdate({ username: name },{ $pull: { following: id } },{new:true})
+  var user = await User.findOneAndUpdate({ username: name },{ $pull: { following: id } },{new:true}).populate("recipes")
+  .populate("favorite").populate("following")
+  .select("-password -role -_id -__v -email").exec();
   console.log(user);
 
   if (!user) {
