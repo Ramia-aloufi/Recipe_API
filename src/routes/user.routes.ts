@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { updateUser, deleteUser, addUser, getAll, getUserData, getUser, addUserFavorite, adminOnly, getUserByName } from '../controllers/user.controller';
+import { updateUser, deleteUser, addUser, getAll, getUserData, getUser, addUserFavorite, adminOnly, getUserByName, follow, unFollow } from '../controllers/user.controller';
 import { isAdmin, isLoggedIn } from '../middleware/auth.middleware';
 
 export const userRouter = Router();
@@ -11,5 +11,7 @@ userRouter.get('/profile',isLoggedIn, getUserData);
 userRouter.put('/one/:id',isLoggedIn, updateUser);
 userRouter.delete('/one/:id',isLoggedIn,isAdmin, deleteUser);
 userRouter.get('/view/:name', getUserByName);
+userRouter.put('/follow/:name',isLoggedIn, follow);
+userRouter.put('/unfollow/:name',isLoggedIn, unFollow);
 userRouter.get('/admin-only',isLoggedIn,isAdmin,adminOnly);
 

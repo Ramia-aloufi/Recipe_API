@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById, addFavorite, getOneByName } from "../services/user.service";
+import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById, addFavorite, getOneByName, followUser, unFollowUser } from "../services/user.service";
 import bcrypt from "bcrypt"
 import { IUser } from "../models/user.model";
 import { successResponse } from "../helpers/apiResponse.helper";
@@ -104,6 +104,38 @@ export const addUserFavorite = async (req: Request, res: Response,next:NextFunct
      await addFavorite(data.user,  data.recipe);
     successResponse<null>(res, {
       message: "Favorite Created successfully.",
+      statusCode: 201,
+      data: null,
+  })
+  } catch (error) {
+    next(error)
+  }
+};
+export const follow = async (req: Request, res: Response,next:NextFunction) => {
+  try {
+    const data = {
+      user:req.id,
+      name:req.params.name
+    }
+     await followUser( data.name,data.user);
+    successResponse<null>(res, {
+      message: "Following successfully.",
+      statusCode: 201,
+      data: null,
+  })
+  } catch (error) {
+    next(error)
+  }
+};
+export const unFollow = async (req: Request, res: Response,next:NextFunction) => {
+  try {
+    const data = {
+      user:req.id,
+      name:req.params.name
+    }
+     await unFollowUser( data.name,data.user);
+    successResponse<null>(res, {
+      message: "UnFollowing successfully.",
       statusCode: 201,
       data: null,
   })

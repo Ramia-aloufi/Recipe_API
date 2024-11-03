@@ -11,6 +11,7 @@ export interface IUser extends Document {
   profileImage: string;
   recipes: IRecipe["chef"][];
   favorite:  IFavorite["user"][];
+  following:IUser['_id'][];
 }
 
 export enum Role {
@@ -60,7 +61,8 @@ const UserSchema = new Schema<IUser>({
     default: "dhttps://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
   },
   recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
-  favorite: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }]
+  favorite: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }],
+  following: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 
 export const User = model<IUser>("User", UserSchema);

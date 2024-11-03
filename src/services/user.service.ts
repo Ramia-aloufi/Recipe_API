@@ -77,3 +77,27 @@ export const deleteUserById = async (id: string) => {
   }
   return deletedUser;
 };
+export const followUser = async(name:string,id:string,)=>{
+  console.log('id:'+id);
+  console.log('name:'+name);
+
+  
+  var user = await User.findOneAndUpdate({ username: name },{ $addToSet: { following: id } },{new:true})
+  console.log(user);
+  
+  if (!user) {
+    throw createError(400, "User not found. ");
+  }
+  return user;
+}
+export const unFollowUser = async(name:string,id:string,)=>{
+  console.log('id:'+id);
+  console.log('name:'+name);
+  var user = await User.findOneAndUpdate({ username: name },{ $pull: { following: id } },{new:true})
+  console.log(user);
+
+  if (!user) {
+    throw createError(400, "User not found. ");
+  }
+  return user;
+}
