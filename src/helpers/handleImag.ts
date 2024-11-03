@@ -12,7 +12,6 @@ import cloudinary from "../config/cloudinary.config";
     export const deleteImageFromCloudinary = async(publicId:string) =>{
         try {
           await cloudinary.uploader.destroy(publicId);
-          console.log('Previous image deleted successfully');
         } catch (error) {
           console.error('Error deleting previous image:', error);
           throw error;

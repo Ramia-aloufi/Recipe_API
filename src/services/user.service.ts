@@ -32,9 +32,7 @@ export const getOneByName = async (username: string) => {
   var user = await User.findOne({ username: username }).populate("recipes")
   .populate("favorite").populate("following")
   .select("-password -role -_id -__v -email").exec();
-  
-  console.log(user);
-  
+    
   if (!user) {
     throw createError(400, "User");
   }
@@ -79,27 +77,19 @@ export const deleteUserById = async (id: string) => {
   return deletedUser;
 };
 export const followUser = async(name:string,id:string,)=>{
-  console.log('id:'+id);
-  console.log('name:'+name);
-
   
   var user = await User.findOneAndUpdate({ username: name },{ $addToSet: { following: id } },{new:true}).populate("recipes")
   .populate("favorite").populate("following")
-  .select("-password -role -_id -__v -email").exec();
-  console.log(user);
-  
+  .select("-password -role -_id -__v -email").exec();  
   if (!user) {
     throw createError(400, "User not found. ");
   }
   return user;
 }
 export const unFollowUser = async(name:string,id:string,)=>{
-  console.log('id:'+id);
-  console.log('name:'+name);
   var user = await User.findOneAndUpdate({ username: name },{ $pull: { following: id } },{new:true}).populate("recipes")
   .populate("favorite").populate("following")
   .select("-password -role -_id -__v -email").exec();
-  console.log(user);
 
   if (!user) {
     throw createError(400, "User not found. ");

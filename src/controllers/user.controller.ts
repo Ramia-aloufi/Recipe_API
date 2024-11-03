@@ -34,9 +34,7 @@ export const getUser = async (req: Request, res: Response,next:NextFunction) => 
   }
 };
 export const getUserByName = async (req: Request, res: Response,next:NextFunction) => {
-  try {    
-    console.log(req.params.name);
-    
+  try {        
     const user = await getOneByName (req.params.name);
     successResponse<IUser>(res,{
       message:"User Retrieved successfully.",
@@ -117,11 +115,11 @@ export const follow = async (req: Request, res: Response,next:NextFunction) => {
       user:req.id,
       name:req.params.name
     }
-     await followUser( data.name,data.user);
-    successResponse<null>(res, {
+    var user = await followUser( data.name,data.user);
+    successResponse<IUser>(res, {
       message: "Following successfully.",
       statusCode: 201,
-      data: null,
+      data: user,
   })
   } catch (error) {
     next(error)
@@ -133,11 +131,11 @@ export const unFollow = async (req: Request, res: Response,next:NextFunction) =>
       user:req.id,
       name:req.params.name
     }
-     await unFollowUser( data.name,data.user);
-    successResponse<null>(res, {
+     var user = await unFollowUser( data.name,data.user);
+    successResponse<IUser>(res, {
       message: "UnFollowing successfully.",
       statusCode: 201,
-      data: null,
+      data: user,
   })
   } catch (error) {
     next(error)
