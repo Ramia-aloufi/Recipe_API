@@ -54,3 +54,17 @@ export const deleteOneById = async (id: string) => {
   }
   return deletedRecipe;
 };
+export const addComment = async (id: string, comment:string) => {
+  var updatedUser = await Recipe.findOneAndUpdate({ _id: id },{ $push: { comments: comment } });
+  if (!updatedUser) {
+    throw createError(400, "User not found. ");
+  }
+  return updatedUser;
+};
+export const removeComment = async (id: string, comment:string) => {
+  var updatedUser = await Recipe.findOneAndUpdate({ _id: id },{ $pull: { comments: comment } });
+  if (!updatedUser) {
+    throw createError(400, "User not found. ");
+  }
+  return updatedUser;
+};

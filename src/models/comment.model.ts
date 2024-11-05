@@ -3,8 +3,8 @@ import { IUser } from './user.model';
 import { IRecipe } from './recipe.model';
 
 export interface IComment extends Document {
-    user: IUser;
-    recipe: IRecipe;
+    user: IUser['id'];
+    recipe: IRecipe['id'];
     commentText: string;
 }
 

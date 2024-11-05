@@ -1,7 +1,7 @@
 import { createError } from "../helpers/error.helper";
 import { IComment, Comment } from "../models/comment.model";
 
-export const createOne = async (comment: IComment) => {
+export const createOne = async (comment: Partial<IComment>) => {
   return await Comment.create(comment);
 };
 
@@ -18,7 +18,7 @@ export const getAll = async () => {
 };
 
 export const updateOneById = async (id: string, comment: Partial<IComment>) => {
-  var updatedComment = await Comment.findOneAndUpdate({ _id: id }, comment, {
+  var updatedComment = await Comment.findOneAndUpdate({ _id: id }, {commentText:comment}, {
     new: true,
   });
   if (!updatedComment) {

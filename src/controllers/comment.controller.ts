@@ -2,11 +2,18 @@ import { NextFunction, Request, Response } from 'express';
 import { createOne, getById, updateOneById, deleteOneById, getAll } from '../services/comment.service';
 import { successResponse } from '../helpers/apiResponse.helper';
 import { IComment } from '../models/comment.model';
+import { addComment, removeComment } from '../services/recipe.service';
 
 export const createComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const newComment:IComment = req.body
+
+        const newComment = {
+            user:req.id,
+            recipe:req.body.recipe,
+            commentText:req.body.text
+        }
         const comment = await createOne(newComment)
+       await addComment(newComment.recipe,comment._id as string)
         successResponse<IComment>(res, {
             message: "Comment Created successfully.",
             statusCode: 200,
@@ -46,7 +53,9 @@ export const getAllComments = async (req: Request, res: Response, next: NextFunc
 
 export const updateComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const comment = await updateOneById(req.params.id, req.body);
+        const newComment = req.body.text
+        
+        const comment = await updateOneById(req.params.id,newComment);
         successResponse<IComment>(res, {
             message: "Comment Updated successfully.",
             statusCode: 200,
@@ -59,7 +68,9 @@ export const updateComment = async (req: Request, res: Response, next: NextFunct
 
 export const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
         const comment = await deleteOneById(req.params.id);
+        await removeComment(req.body.recipe,req.params.id)
         successResponse<IComment>(res, {
             message: "Comment Deleted successfully.",
             statusCode: 200,
