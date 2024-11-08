@@ -12,7 +12,11 @@ export const getById = async (id: string) => {
     .populate("media")
     .populate("ingredients")
     .populate("steps")
-    .populate("comments");
+    .populate({
+      path: "comments",
+      select: " -__v",
+      populate:"user"
+    });
   if (!recipe) {
     throw createError(400, " Recipe not found. ");
   }
@@ -34,8 +38,11 @@ export const getAll = async () => {
     .populate("media")
     .populate("ingredients")
     .populate("steps")
-    .populate("comments");
-};
+    .populate({
+      path: "comments",
+      select: " -__v",
+      populate:"user"
+    });};
 
 export const updateOneById = async (id: string, recipe: Partial<IRecipe>) => {
   const updatedRecipe = await Recipe.findOneAndUpdate({ _id: id }, recipe, {

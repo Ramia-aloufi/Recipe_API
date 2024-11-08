@@ -14,6 +14,7 @@ export const createComment = async (req: Request, res: Response, next: NextFunct
         }
         const comment = await createOne(newComment)
        await addComment(newComment.recipe,comment._id as string)
+        
         successResponse<IComment>(res, {
             message: "Comment Created successfully.",
             statusCode: 200,
