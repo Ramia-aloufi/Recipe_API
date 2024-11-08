@@ -1,3 +1,4 @@
+import path from "path";
 import { createError } from "../helpers/error.helper";
 import { IRecipe, Recipe } from "../models/recipe.model";
 
@@ -41,7 +42,10 @@ export const getAll = async () => {
     .populate({
       path: "comments",
       select: " -__v",
-      populate:"user"
+      populate:{
+        path:"user",
+        select:"username _id"
+      }
     });};
 
 export const updateOneById = async (id: string, recipe: Partial<IRecipe>) => {
