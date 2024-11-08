@@ -16,7 +16,10 @@ export const getById = async (id: string) => {
     .populate({
       path: "comments",
       select: " -__v",
-      populate:"user"
+      populate:{
+        path:"user",
+        select:"username _id profileImage"
+      }
     });
   if (!recipe) {
     throw createError(400, " Recipe not found. ");
