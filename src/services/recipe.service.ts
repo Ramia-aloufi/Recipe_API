@@ -44,7 +44,7 @@ export const getAll = async () => {
       select: " -__v",
       populate:{
         path:"user",
-        select:"username _id"
+        select:"-email -password -bio -role -__v -favorite -recipes -following"
       }
     });};
 
