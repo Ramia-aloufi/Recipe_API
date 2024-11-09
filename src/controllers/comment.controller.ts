@@ -71,7 +71,8 @@ export const deleteComment = async (req: Request, res: Response, next: NextFunct
     try {
 
         const comment = await deleteOneById(req.params.id);
-        await removeComment(req.body.recipe,req.params.id)
+        //see comment type recipe or recipe._id
+        await removeComment(comment.recipe._id,req.params.id)
         successResponse<IComment>(res, {
             message: "Comment Deleted successfully.",
             statusCode: 200,

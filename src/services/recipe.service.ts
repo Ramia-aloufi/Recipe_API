@@ -78,7 +78,7 @@ export const addComment = async (id: string, comment:string) => {
 export const removeComment = async (id: string, comment:string) => {
   var updatedUser = await Recipe.findOneAndUpdate({ _id: id },{ $pull: { comments: comment } });
   if (!updatedUser) {
-    throw createError(400, "User not found. ");
+    throw createError(400, "Comment not found. ");
   }
   return updatedUser;
 };
