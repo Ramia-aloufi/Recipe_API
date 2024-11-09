@@ -13,6 +13,7 @@ export const getById = async (id: string) => {
     .populate("media")
     .populate("ingredients")
     .populate("steps")
+    .populate("following")
     .populate({
       path: "comments",
       select: " -__v",
@@ -42,12 +43,13 @@ export const getAll = async () => {
     .populate("media")
     .populate("ingredients")
     .populate("steps")
+    .populate("following")
     .populate({
       path: "comments",
       select: " -__v",
       populate:{
         path:"user",
-        select:"-email -password -bio -role -__v -favorite -recipes -following"
+        select:"username _id profileImage"
       }
     });};
 
