@@ -8,12 +8,17 @@ export const createOne = async (recipe: Partial<IRecipe>) => {
 
 export const getById = async (id: string) => {
   const recipe = await Recipe.findOne({ _id: id })
-    .populate("chef")
     .populate("category")
     .populate("media")
     .populate("ingredients")
     .populate("steps")
-    .populate("following")
+    .populate({
+      path: "chef",
+      populate:{
+        path:"following",
+        select:"username"
+      }
+    })
     .populate({
       path: "comments",
       select: " -__v",
@@ -38,13 +43,18 @@ export const getByTitle = async (title: string) => {
 
 export const getAll = async () => {
   return await Recipe.find()
-    .populate("chef")
     .populate("category")
     .populate("media")
     .populate("ingredients")
     .populate("steps")
-    .populate("following")
     .populate({
+      path: "chef",
+      populate:{
+        path:"following",
+        select:"username"
+      }
+    })   
+     .populate({
       path: "comments",
       select: " -__v",
       populate:{
