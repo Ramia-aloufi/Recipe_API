@@ -88,7 +88,7 @@ export const uploadUserIMG = async (
 ) => {
   const MAX_FILE_SIZE = 1 * 1024 * 1024; 
   const file = req.file;
-  var title = req.body.title
+  var title = req.body.username
 
   try {
      await getByTitle(title)
@@ -98,7 +98,7 @@ export const uploadUserIMG = async (
         if (error) {
           throw createError(400,"Upload failed")
         } else {
-          req.body.media = result?.secure_url;
+          req.body.profileImage = result?.secure_url;
           return next();
         }
       }
@@ -124,7 +124,7 @@ export const updatedUserIMG = async (
 ) => {
   const MAX_FILE_SIZE = 1 * 1024 * 1024; 
   const file = req.file;
-  var title = req.body.title
+  var title = req.body.username
 
   try {
      
@@ -136,7 +136,7 @@ export const updatedUserIMG = async (
           if (error) {
             throw createError(400,"Upload failed")
           } else {
-            req.body.media = result?.secure_url;
+            req.body.profileImage = result?.secure_url;
             return next();
           }
         }

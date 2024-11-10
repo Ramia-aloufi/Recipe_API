@@ -58,7 +58,7 @@ const UserSchema = new Schema<IUser>({
   },
   profileImage: {
     type: String,
-    default: "dhttps://static.vecteezy.com/system/resources/thumbnails/020/911/740/small_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png"
+    default: "https://res.cloudinary.com/dhrj6nlxm/image/upload/v1731227331/default.png"
   },
   recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
   favorite: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }],
