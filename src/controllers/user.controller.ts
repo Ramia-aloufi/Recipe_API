@@ -82,7 +82,7 @@ export const getAll = async (req: Request, res: Response,next:NextFunction) => {
 };
 export const updateUser = async (req: Request, res: Response,next:NextFunction) => {
   try {
-    const user = await updateUserById(req.params.id, req.body);
+    const user = await updateUserById(req.id, req.body);
     successResponse<IUser>(res,{
       message:"User Updated successfully.",
       statusCode:200,

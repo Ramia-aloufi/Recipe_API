@@ -11,7 +11,7 @@ userRouter.post('/new',upload.single('profileImage'),uploadUserIMG, addUser);
 userRouter.get('/all',isLoggedIn,isAdmin, getAll);
 userRouter.get('/one/:id',isLoggedIn, getUser);
 userRouter.get('/profile',isLoggedIn, getUserData);
-userRouter.put('/one/:id',upload.single('profileImage'),updatedUserIMG,isLoggedIn, updateUser);
+userRouter.put('/one',upload.single('profileImage'),updatedUserIMG,isLoggedIn, updateUser);
 userRouter.delete('/one/:id',isLoggedIn,isAdmin, deleteUser);
 userRouter.get('/view/:name', getUserByName);
 userRouter.put('/follow/:name',isLoggedIn, follow);
