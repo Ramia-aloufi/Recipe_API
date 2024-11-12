@@ -41,7 +41,8 @@ export const getByTitle = async (title: string) => {
   return true;
 };
 
-export const getAll = async () => {
+export const getAll = async (currentPage:number,pageSize:number) => {
+
   return await Recipe.find()
     .populate("category")
     .populate("media")
@@ -61,7 +62,13 @@ export const getAll = async () => {
         path:"user",
         select:"username _id profileImage"
       }
-    });};
+    })    
+    .skip((currentPage - 1) * pageSize)
+    .limit(pageSize)};
+
+    export const getTotal = async() => {
+      return (await Recipe.find()).length
+    }
 
 export const updateOneById = async (id: string, recipe: Partial<IRecipe>) => {
   const updatedRecipe = await Recipe.findOneAndUpdate({ _id: id }, recipe, {

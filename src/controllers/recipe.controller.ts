@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { IRecipe } from "../models/recipe.model";
-import { getById, updateOneById, deleteOneById, getAll ,createOne} from "../services/recipe.service";
+import { getById, updateOneById, deleteOneById, getAll ,createOne, getTotal} from "../services/recipe.service";
 import { successResponse } from "../helpers/apiResponse.helper";
 import { deleteImageFromCloudinary } from "../helpers/handleImag";
 
@@ -67,11 +67,20 @@ export const getRecipeById = async (req: Request, res: Response,next:NextFunctio
 
 export const getAllRecipes = async (req: Request, res: Response, next:NextFunction) => {
   try {
-    const recipes = await getAll();
+    const page = parseInt(req.query.page  as string) || 1 ;
+    const pageSize = 10
+    const recipes = await getAll(page,pageSize);
+    const recipesTotal = await getTotal();
     successResponse<IRecipe[]>(res,{
       message:"Recipe Retrieved successfully.",
       statusCode:200,
-      data:recipes
+      data:recipes,
+      meta:{
+        page:page,
+        pageSize:pageSize,
+        total:recipesTotal,
+        totalPages: recipesTotal / pageSize
+      }
   })  
  } catch (error) {
   next(error)
