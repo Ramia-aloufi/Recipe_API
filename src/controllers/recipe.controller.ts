@@ -68,7 +68,7 @@ export const getRecipeById = async (req: Request, res: Response,next:NextFunctio
 export const getAllRecipes = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const page = parseInt(req.query.page  as string) || 1 ;
-    const pageSize = 10
+    const pageSize = parseInt(req.query.size  as string) || 10 ;
     const recipes = await getAll(page,pageSize);
     const recipesTotal = await getTotal();
     successResponse<IRecipe[]>(res,{
