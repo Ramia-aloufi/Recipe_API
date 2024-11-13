@@ -79,7 +79,7 @@ export const getAllRecipes = async (req: Request, res: Response, next:NextFuncti
         page:page,
         pageSize:pageSize,
         total:recipesTotal,
-        totalPages: recipesTotal / pageSize
+        totalPages: Math.ceil(recipesTotal / pageSize)
       }
   })  
  } catch (error) {
