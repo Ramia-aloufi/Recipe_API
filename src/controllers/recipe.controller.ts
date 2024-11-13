@@ -71,6 +71,7 @@ export const getAllRecipes = async (req: Request, res: Response, next:NextFuncti
     const pageSize = parseInt(req.query.size  as string) || 10 ;
     const recipes = await getAll(page,pageSize);
     const recipesTotal = await getTotal();
+    const total =  Math.ceil(recipesTotal / pageSize)
     successResponse<IRecipe[]>(res,{
       message:"Recipe Retrieved successfully.",
       statusCode:200,
@@ -79,7 +80,7 @@ export const getAllRecipes = async (req: Request, res: Response, next:NextFuncti
         page:page,
         pageSize:pageSize,
         total:recipesTotal,
-        totalPages: Math.ceil(recipesTotal / pageSize)
+        totalPages: total
       }
   })  
  } catch (error) {
