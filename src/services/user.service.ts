@@ -39,10 +39,10 @@ export const getOneByName = async (username: string) => {
   return user;
 };
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (currentPage:number,pageSize:number) => {
   return await User.find().populate("recipes")
-  .populate("favorite").exec();
-};
+  .populate("favorite").skip((currentPage - 1) * pageSize)
+  .limit(pageSize)}
 
 export const updateUserById = async (id: string, user: Partial<IUser>) => {
   var updatedUser = await User.findOneAndUpdate({ _id: id }, user, {
@@ -95,4 +95,8 @@ export const unFollowUser = async(name:string,id:string,)=>{
     throw createError(400, "User not found. ");
   }
   return user;
+}
+
+export const getUserTotal = async() => {
+  return (await User.find()).length
 }

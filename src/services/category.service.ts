@@ -25,9 +25,10 @@ export const getById = async (id: string) => {
   return category;
 };
 
-export const getAll = async () => {
-  return await Category.find();
-};
+export const getAll = async (currentPage:number,pageSize:number) => {
+  return await Category.find()    
+  .skip((currentPage - 1) * pageSize)
+  .limit(pageSize)};;
 
 export const updateOneById = async (
   id: string,
@@ -51,3 +52,6 @@ export const deleteOneById = async (id: string) => {
   }
   return deletedCategory;
 };
+export const getCategoryTotal = async() => {
+  return (await Category.find()).length
+}

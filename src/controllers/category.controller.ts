@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import {
-  errorResponse,
   successResponse,
 } from "../helpers/apiResponse.helper";
 import {
@@ -9,6 +8,7 @@ import {
   deleteOneById,
   updateOneById,
   getAll,
+  getCategoryTotal,
 } from "../services/category.service";
 import { ICategory } from "../models/category.model";
 
@@ -17,7 +17,7 @@ export const createCategory = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {    
+  try {
     const category = await createOne(req.body)
     successResponse<ICategory>(res, {
       message: "Category Created successfully.",
@@ -36,14 +36,14 @@ export const getCategoryById = async (
 ) => {
   try {
     const category = await getById(req.params.id);
-      successResponse<ICategory>(res, {
-        message: "Category retrieved successfully.",
-        statusCode: 200,
-        data: category,
-      })
+    successResponse<ICategory>(res, {
+      message: "Category retrieved successfully.",
+      statusCode: 200,
+      data: category,
+    })
 
   } catch (error) {
-     next(error);
+    next(error);
   }
 };
 
@@ -53,14 +53,24 @@ export const getAllCategories = async (
   next: NextFunction
 ) => {
   try {
-    const categories = await getAll();
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = parseInt(req.query.size as string) || 10;
+    const categoryTotal = await getCategoryTotal();
+    const total =  Math.ceil(categoryTotal / pageSize)
+    const categories = await getAll(page, pageSize);
     successResponse<ICategory[]>(res, {
       message: "Categories retrieved successfully.",
       statusCode: 200,
       data: categories,
+      meta:{
+        page:page,
+        pageSize:pageSize,
+        total:categoryTotal,
+        totalPages: total
+      }
     });
   } catch (error) {
-     next(error);
+    next(error);
   }
 }
 
@@ -69,16 +79,16 @@ export const updateCategory = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {    
+  try {
     const category = await updateOneById(req.params.id, req.body);
-      successResponse<ICategory>(res, {
-        message: "Category updated successfully.",
-        statusCode: 200,
-        data: category,
-      })
+    successResponse<ICategory>(res, {
+      message: "Category updated successfully.",
+      statusCode: 200,
+      data: category,
+    })
 
-  } catch (error) {    
-     next(error);
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -89,12 +99,12 @@ export const deleteCategory = async (
 ) => {
   try {
     const category = await deleteOneById(req.params.id);
-      successResponse<ICategory>(res, {
-        message: "Category deleted successfully.",
-        statusCode: 200,
-        data: category,
-      })
+    successResponse<ICategory>(res, {
+      message: "Category deleted successfully.",
+      statusCode: 200,
+      data: category,
+    })
   } catch (error) {
-     next(error);
+    next(error);
   }
 }
