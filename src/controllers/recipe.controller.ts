@@ -3,6 +3,8 @@ import { IRecipe } from "../models/recipe.model";
 import { getById, updateOneById, deleteOneById, getAll ,createOne, getTotal} from "../services/recipe.service";
 import { successResponse } from "../helpers/apiResponse.helper";
 import { deleteImageFromCloudinary } from "../helpers/handleImag";
+import { updateUserById } from "../services/user.service";
+import { User } from "../models/user.model";
 
 // Create a new recipe
 export const createRecipe = async (req: Request, res: Response,next:NextFunction) => {
@@ -40,7 +42,11 @@ export const createRecipe = async (req: Request, res: Response,next:NextFunction
       media  }
 
     const savedRecipe = await createOne(recipe)
-    successResponse<IRecipe>(res,{
+    const user = await User.findById(req.id);
+    if (user) {
+        const updatedRecipes = [...user.recipes, savedRecipe._id];
+        await updateUserById(req.id, { recipes: updatedRecipes });
+    }    successResponse<IRecipe>(res,{
       message:"Recipe Saved successfully.",
       statusCode:201,
       data:savedRecipe
