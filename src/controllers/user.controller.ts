@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById, addFavorite, getOneByName, followUser, unFollowUser, getUserTotal } from "../services/user.service";
+import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById, getOneByName, followUser, getUserTotal } from "../services/user.service";
 import bcrypt from "bcrypt"
 import { IUser } from "../models/user.model";
 import { successResponse } from "../helpers/apiResponse.helper";
@@ -108,11 +108,11 @@ export const addUserFavorite = async (req: Request, res: Response, next: NextFun
   try {
     const data = {
       user: req.id,
-      recipe: req.body.recipe
+      favorite: req.body.recipe
     }
-    await addFavorite(data.user, data.recipe);
+    await updateUserById(data.user, {favorite:data.favorite});
     successResponse<null>(res, {
-      message: "Favorite Created successfully.",
+      message: "Favorite Updated successfully.",
       statusCode: 201,
       data: null,
     })
@@ -136,22 +136,22 @@ export const follow = async (req: Request, res: Response, next: NextFunction) =>
     next(error)
   }
 };
-export const unFollow = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const data = {
-      user: req.id,
-      name: req.params.name
-    }
-    var user = await unFollowUser(data.name, data.user);
-    successResponse<IUser>(res, {
-      message: "UnFollowing successfully.",
-      statusCode: 201,
-      data: user,
-    })
-  } catch (error) {
-    next(error)
-  }
-};
+// export const unFollow = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     const data = {
+//       user: req.id,
+//       name: req.params.name
+//     }
+//     var user = await unFollowUser(data.name, data.user);
+//     successResponse<IUser>(res, {
+//       message: "UnFollowing successfully.",
+//       statusCode: 201,
+//       data: user,
+//     })
+//   } catch (error) {
+//     next(error)
+//   }
+// };
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await deleteUserById(req.params.id);

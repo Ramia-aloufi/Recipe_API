@@ -30,7 +30,7 @@ app.use('/users', userRouter)
 app.use('/recipes', recipeRouter)
 app.use('/categories', categoryRouter)
 app.use('/comments', commentRouter)
-app.use('/favorites', favoriteRouter)
+// app.use('/favorites', favoriteRouter)
 connectDB()
 
 app.get('/', (req: Request, res: Response) => {

@@ -10,7 +10,7 @@ export interface IUser extends Document {
   bio: string;
   profileImage: string;
   recipes: IRecipe["chef"][];
-  favorite:  IFavorite["user"][];
+  favorite:  IRecipe["_id"][];
   following:IUser['_id'][];
 }
 
@@ -61,7 +61,7 @@ const UserSchema = new Schema<IUser>({
     default: "https://res.cloudinary.com/dhrj6nlxm/image/upload/v1731227331/default.png"
   },
   recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
-  favorite: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }],
+  favorite: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
   following: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 

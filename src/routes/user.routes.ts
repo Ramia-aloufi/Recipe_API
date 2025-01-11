@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { updateUser, deleteUser, addUser, getAll, getUserData, getUser, addUserFavorite, adminOnly, getUserByName, follow, unFollow } from '../controllers/user.controller';
+import { updateUser, deleteUser, addUser, getAll, getUserData, getUser, adminOnly, getUserByName, follow } from '../controllers/user.controller';
 import { isAdmin, isLoggedIn } from '../middleware/auth.middleware';
 import upload from '../middleware/uploud.middlewre';
 import { updatedUserIMG, uploadUserIMG, uploudIMG } from '../middleware/uploudImage.middleware';
@@ -15,6 +15,5 @@ userRouter.put('/one',upload.single('profileImage'),updatedUserIMG,isLoggedIn, u
 userRouter.delete('/one/:id',isLoggedIn,isAdmin, deleteUser);
 userRouter.get('/view/:name', getUserByName);
 userRouter.put('/follow/:name',isLoggedIn, follow);
-userRouter.put('/unfollow/:name',isLoggedIn, unFollow);
+userRouter.put('/unfollow/:name',isLoggedIn, follow);
 userRouter.get('/admin-only',isLoggedIn,isAdmin,adminOnly);
-
