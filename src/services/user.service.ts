@@ -7,14 +7,16 @@ export const createUser = async (user: IUser) => {
 };
 
 export const getUserById = async (id: string | undefined) => {
-  var user = await User.findOne({ _id: id }).populate("recipes")
-  .populate("favorite").select("-password -role -_id -__v -email").exec();
+  var user = await User.findOne({ _id: id })
+    .populate("recipes")
+    .populate("favorite")
+    .select("-password -role -_id -__v -email")
+    .exec();
   if (!user) {
     throw createError(400, "User not found. ");
   }
   return user;
 };
-
 
 export const getUserByEmail = async (email: string) => {
   var user = await User.findOne({ email: email });
@@ -24,22 +26,27 @@ export const getUserByEmail = async (email: string) => {
   return user;
 };
 
-export const getOneByName = async (username: string) => {  
-  var user = await User.findOne({ username: username }).populate("recipes")
-  .populate("favorite").populate("following")
-  .select("-password -role -_id -__v -email").exec();
-    
+export const getOneByName = async (username: string) => {
+  var user = await User.findOne({ username: username })
+    .populate("recipes")
+    .populate("favorite")
+    .populate("following")
+    .select("-password -role -_id -__v -email")
+    .exec();
+
   if (!user) {
     throw createError(400, "User");
   }
   return user;
 };
 
-export const getAllUsers = async (currentPage:number,pageSize:number) => {
-  return await User.find().populate("recipes")
-  .populate("favorite").skip((currentPage - 1) * pageSize)
-  .limit(pageSize)
-}
+export const getAllUsers = async (currentPage: number, pageSize: number) => {
+  return await User.find()
+    .populate("recipes")
+    .populate("favorite")
+    .skip((currentPage - 1) * pageSize)
+    .limit(pageSize);
+};
 
 export const updateUserById = async (id: string, user: Partial<IUser>) => {
   const updateData: any = { ...user };
@@ -49,23 +56,26 @@ export const updateUserById = async (id: string, user: Partial<IUser>) => {
   }
 
   if (user.recipes) {
-    updateData.$push = { recipes:  user.recipes  };
+    updateData.$push = { recipes: user.recipes };
     delete updateData.recipes;
   }
 
   if (user.favorite) {
-      if (existingUser.favorite.includes(user.favorite)) {
-        updateData.$pull = { favorite: user.favorite };
-      } else {
-        updateData.$addToSet = { favorite: user.favorite };
-      }
+    if (existingUser.favorite.includes(user.favorite)) {
+      updateData.$pull = { favorite: user.favorite };
+    } else {
+      updateData.$addToSet = { favorite: user.favorite };
+    }
     delete updateData.favorite;
   }
   const updatedUser = await User.findOneAndUpdate({ _id: id }, updateData, {
     new: true,
-  }).populate("recipes")
-  .populate("favorite").populate("following")
-  .select("-password -role -_id -__v -email").exec();;
+  })
+    .populate("recipes")
+    .populate("favorite")
+    .populate("following")
+    .select("-password -role -_id -__v -email")
+    .exec();
 
   if (!updatedUser) {
     throw createError(400, "User not found.");
@@ -87,15 +97,22 @@ export const followUser = async (name: string, id: string) => {
     throw createError(400, "User not found.");
   }
 
-  const updateData = existingUser.favorite.includes(id)
+  const updateData = existingUser.following.includes(id)
     ? { $pull: { following: id } }
     : { $addToSet: { following: id } };
 
-  const updatedUser = await User.findOneAndUpdate({ username: name }, updateData, {
-    new: true,
-  }).populate("recipes")
-  .populate("favorite").populate("following")
-  .select("-password -role -_id -__v -email").exec();;
+  const updatedUser = await User.findOneAndUpdate(
+    { username: name },
+    updateData,
+    {
+      new: true,
+    }
+  )
+    .populate("recipes")
+    .populate("favorite")
+    .populate("following")
+    .select("-password -role -_id -__v -email")
+    .exec();
 
   if (!updatedUser) {
     throw createError(400, "User not found.");
@@ -104,6 +121,6 @@ export const followUser = async (name: string, id: string) => {
   return updatedUser;
 };
 
-export const getUserTotal = async() => {
-  return (await User.find()).length
-}
+export const getUserTotal = async () => {
+  return (await User.find()).length;
+};
