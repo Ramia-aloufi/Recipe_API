@@ -1,6 +1,5 @@
 import { Schema, model, Document } from "mongoose";
 import { IRecipe } from "./recipe.model";
-import { IFavorite } from "./favorite.model";
 
 export interface IUser extends Document {
   username: string;

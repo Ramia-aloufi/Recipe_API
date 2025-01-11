@@ -38,7 +38,8 @@ export const getOneByName = async (username: string) => {
 export const getAllUsers = async (currentPage:number,pageSize:number) => {
   return await User.find().populate("recipes")
   .populate("favorite").skip((currentPage - 1) * pageSize)
-  .limit(pageSize)}
+  .limit(pageSize)
+}
 
 export const updateUserById = async (id: string, user: Partial<IUser>) => {
   const updateData: any = { ...user };
@@ -73,21 +74,6 @@ export const updateUserById = async (id: string, user: Partial<IUser>) => {
   return updatedUser;
 };
 
-// export const addFavorite = async (id: string, favorite:string) => {
-//   var updatedUser = await User.findOneAndUpdate({ _id: id },{ $push: { favorite: favorite } });
-//   if (!updatedUser) {
-//     throw createError(400, "User not found. ");
-//   }
-//   return updatedUser;
-// };
-// export const removeFavorite = async (id: string, favorite:string) => {
-//   var updatedUser = await User.findOneAndUpdate({ _id: id },{ $pull: { favorite: favorite } });
-//   if (!updatedUser) {
-//     throw createError(400, "User not found. ");
-//   }
-//   return updatedUser;
-// };
-
 export const deleteUserById = async (id: string) => {
   var deletedUser = await User.findOneAndDelete({ _id: id });
   if (!deletedUser) {
@@ -102,8 +88,8 @@ export const followUser = async (name: string, id: string) => {
   }
 
   const updateData = existingUser.favorite.includes(id)
-    ? { $pull: { favorite: id } }
-    : { $addToSet: { favorite: id } };
+    ? { $pull: { following: id } }
+    : { $addToSet: { following: id } };
 
   const updatedUser = await User.findOneAndUpdate({ username: name }, updateData, {
     new: true,
@@ -117,17 +103,6 @@ export const followUser = async (name: string, id: string) => {
 
   return updatedUser;
 };
-
-// export const unFollowUser = async(name:string,id:string,)=>{
-//   var user = await User.findOneAndUpdate({ username: name },{ $pull: { following: id } },{new:true}).populate("recipes")
-//   .populate("favorite").populate("following")
-//   .select("-password -role -_id -__v -email").exec();
-
-//   if (!user) {
-//     throw createError(400, "User not found. ");
-//   }
-//   return user;
-// }
 
 export const getUserTotal = async() => {
   return (await User.find()).length

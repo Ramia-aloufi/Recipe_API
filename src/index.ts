@@ -1,7 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express'
 import { categoryRouter } from './routes/category.routes'
 import { commentRouter } from './routes/comment.routes'
-import { favoriteRouter } from './routes/favorite.routes'
 import { recipeRouter } from './routes/recipe.routes'
 import { userRouter } from './routes/user.routes'
 import { connectDB } from './config/db.configuration'
@@ -30,7 +29,6 @@ app.use('/users', userRouter)
 app.use('/recipes', recipeRouter)
 app.use('/categories', categoryRouter)
 app.use('/comments', commentRouter)
-// app.use('/favorites', favoriteRouter)
 connectDB()
 
 app.get('/', (req: Request, res: Response) => {
