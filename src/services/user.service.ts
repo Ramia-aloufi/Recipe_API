@@ -9,7 +9,10 @@ export const createUser = async (user: IUser) => {
 export const getUserById = async (id: string | undefined) => {
   var user = await User.findOne({ _id: id })
     .populate("recipes")
-    .populate("favorite")
+     .populate({
+      path: 'favorite',
+      populate: {
+        path: 'chef'}})
     .select("-password -role -_id -__v -email")
     .exec();
   if (!user) {
