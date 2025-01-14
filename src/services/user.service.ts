@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose";
 import { createError } from "../helpers/error.helper";
 import { IUser, User } from "../models/user.model";
 

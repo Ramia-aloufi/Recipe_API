@@ -4,13 +4,13 @@ import { isAdmin, isLoggedIn } from '../middleware/auth.middleware';
 
 export const categoryRouter = Router()
 
-// POST /recipes/5
+// POST /categories/id
 categoryRouter.post('/',isLoggedIn,isAdmin, createCategory)
-// GET /recipes
+// GET /categories
 categoryRouter.get('/', getAllCategories)
-// GET /recipes/5
+// GET /categories/id
 categoryRouter.get('/:id', getCategoryById)
-// PUT /recipes/5
+// PUT /categories/id
 categoryRouter.put('/:id',isLoggedIn,isAdmin, updateCategory)
-// DELETE /recipes/5
+// DELETE /categories/id
 categoryRouter.delete('/:id',isLoggedIn,isAdmin, deleteCategory)
