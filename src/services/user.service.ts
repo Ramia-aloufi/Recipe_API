@@ -78,7 +78,6 @@ export const updateUserById = async (id: string, user: Partial<IUser>) => {
       path: 'favorite',
       populate: {
         path: 'chef'}})
-    .populate("following")
     .select("-password -role -_id -__v -email")
     .exec();
 
